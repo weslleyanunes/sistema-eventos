@@ -9,12 +9,12 @@ import java.util.List;
 public class Evento implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String nome;
-    private String endereco;
-    private String categoria;
-    private LocalDateTime horario;
-    private String descricao;
-    private List<Usuario> participantes;
+    private final String nome;
+    private final String endereco;
+    private final String categoria;
+    private final LocalDateTime horario;
+    private final String descricao;
+    private final List<Usuario> participantes;
 
     public Evento(String nome, String endereco, String categoria, LocalDateTime horario, String descricao) {
         if (nome == null || endereco == null || categoria == null || horario == null || descricao == null) {
@@ -28,12 +28,29 @@ public class Evento implements Serializable {
         this.participantes = new ArrayList<>();
     }
 
-    public String getNome() { return nome; }
-    public String getEndereco() { return endereco; }
-    public String getCategoria() { return categoria; }
-    public LocalDateTime getHorario() { return horario; }
-    public String getDescricao() { return descricao; }
-    public List<Usuario> getParticipantes() { return participantes; }
+    public String getNome() {
+        return nome;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public LocalDateTime getHorario() {
+        return horario;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public List<Usuario> getParticipantes() {
+        return participantes;
+    }
 
     public void adicionarParticipante(Usuario usuario) {
         if (!participantes.contains(usuario)) {
@@ -51,7 +68,6 @@ public class Evento implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s | %s | %s | %s | %s",
-                nome, endereco, categoria, formatarHorario(), descricao);
+        return String.format("%s | %s | %s | %s | %s", nome, endereco, categoria, formatarHorario(), descricao);
     }
 }

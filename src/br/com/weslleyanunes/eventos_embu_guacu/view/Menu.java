@@ -1,16 +1,16 @@
 package br.com.weslleyanunes.eventos_embu_guacu.view;
 
+import br.com.weslleyanunes.eventos_embu_guacu.service.EventoService;
+import br.com.weslleyanunes.eventos_embu_guacu.service.UsuarioService;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import br.com.weslleyanunes.eventos_embu_guacu.service.UsuarioService;
-import br.com.weslleyanunes.eventos_embu_guacu.service.EventoService;
-
 public class Menu {
-    private Scanner scanner;
-    private UsuarioService usuarioService;
-    private EventoService eventoService;
+    private final Scanner scanner;
+    private final UsuarioService usuarioService;
+    private final EventoService eventoService;
 
     public Menu() {
         scanner = new Scanner(System.in);
@@ -42,17 +42,26 @@ public class Menu {
             limparConsole();
 
             switch (opcao) {
-                case 1: cadastrarUsuario();
-                case 2: usuarioService.listarUsuarios();
-                case 3: cadastrarEvento();
-                case 4: eventoService.listarEventosOrdenados();
-                case 5: eventoService.participarEmEvento(scanner);
-                case 6: eventoService.cancelarParticipacao(scanner);
-                case 7: eventoService.listarEventosDoUsuario(scanner);
-                case 0: System.out.println("\nSaindo...");
-                        System.exit(0);
-                        break;
-                default: System.out.println("Opção inválida!");
+                case 1:
+                    cadastrarUsuario();
+                case 2:
+                    usuarioService.listarUsuarios();
+                case 3:
+                    cadastrarEvento();
+                case 4:
+                    eventoService.listarEventosOrdenados();
+                case 5:
+                    eventoService.participarEmEvento(scanner);
+                case 6:
+                    eventoService.cancelarParticipacao(scanner);
+                case 7:
+                    eventoService.listarEventosDoUsuario(scanner);
+                case 0:
+                    System.out.println("\nSaindo...");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
             }
 
             if (opcao != 0) {
@@ -107,6 +116,7 @@ public class Menu {
     }
 
     private void limparConsole() {
-        for (int i = 0; i < 50; i++) System.out.println();
+        for (int i = 0; i < 50; i++)
+            System.out.println();
     }
 }

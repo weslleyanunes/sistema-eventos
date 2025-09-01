@@ -1,5 +1,8 @@
 package br.com.weslleyanunes.eventos_embu_guacu.service;
 
+import br.com.weslleyanunes.eventos_embu_guacu.model.Evento;
+import br.com.weslleyanunes.eventos_embu_guacu.model.Usuario;
+
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -7,21 +10,18 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-import br.com.weslleyanunes.eventos_embu_guacu.model.Evento;
-import br.com.weslleyanunes.eventos_embu_guacu.model.Usuario;
-
 public class EventoService {
     private static final String ARQUIVO = "data/eventos.data";
-    private List<Evento> eventos;
-    private UsuarioService usuarioService;
+    private final List<Evento> eventos;
+    private final UsuarioService usuarioService;
 
     public EventoService(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
         this.eventos = carregarEventos();
     }
 
-    public void cadastrarEvento(String nome, String endereco, String categoria,
-                                LocalDateTime horario, String descricao) {
+    public void cadastrarEvento(String nome, String endereco, String categoria, LocalDateTime horario,
+                                String descricao) {
         Evento evento = new Evento(nome, endereco, categoria, horario, descricao);
         eventos.add(evento);
         salvarEventos();
@@ -35,14 +35,14 @@ public class EventoService {
         }
 
         System.out.println("\n=== Lista de Eventos ===");
-        eventos.stream()
-                .sorted(Comparator.comparing(Evento::getHorario))
+        eventos.stream().sorted(Comparator.comparing(Evento::getHorario))
                 .forEach(e -> System.out.println((eventos.indexOf(e) + 1) + " - " + e));
     }
 
     public void participarEmEvento(Scanner scanner) {
         listarEventosOrdenados();
-        if (eventos.isEmpty()) return;
+        if (eventos.isEmpty())
+            return;
 
         System.out.print("Digite o número do evento: ");
         int indice = scanner.nextInt();
@@ -71,7 +71,8 @@ public class EventoService {
 
     public void cancelarParticipacao(Scanner scanner) {
         listarEventosOrdenados();
-        if (eventos.isEmpty()) return;
+        if (eventos.isEmpty())
+            return;
 
         System.out.print("Digite o número do evento: ");
         int indice = scanner.nextInt();
@@ -109,8 +110,7 @@ public class EventoService {
         }
 
         System.out.println("\n=== Meus Eventos ===");
-        eventos.stream()
-                .filter(e -> e.getParticipantes().contains(usuario))
+        eventos.stream().filter(e -> e.getParticipantes().contains(usuario))
                 .forEach(e -> System.out.println((eventos.indexOf(e) + 1) + " - " + e));
     }
 
@@ -125,7 +125,8 @@ public class EventoService {
     @SuppressWarnings("unchecked")
     private List<Evento> carregarEventos() {
         File file = new File(ARQUIVO);
-        if (!file.exists()) return new ArrayList<>();
+        if (!file.exists())
+            return new ArrayList<>();
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             return (List<Evento>) ois.readObject();

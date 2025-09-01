@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="com.obiscr.chatgpt.settings.EasyCodeState">
+    <option name="projectFiles" value="$PROJECT_DIR$/src/br/com/weslleyanunes/eventos_embu_guacu/model/Evento.java;/home/wes/Desenvolvimento/sistema_eventos/src/br/com/weslleyanunes/eventos_embu_guacu/model/Usuario.java;/home/wes/Desenvolvimento/sistema_eventos/src/br/com/weslleyanunes/eventos_embu_guacu/service/EventoService.java;/home/wes/Desenvolvimento/sistema_eventos/src/br/com/weslleyanunes/eventos_embu_guacu/service/UsuarioService.java;/home/wes/Desenvolvimento/sistema_eventos/src/br/com/weslleyanunes/eventos_embu_guacu/view/Menu.java;/home/wes/Desenvolvimento/sistema_eventos/src/br/com/weslleyanunes/eventos_embu_guacu/Main.java" />
+  </component>
+</project>

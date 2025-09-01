@@ -1,14 +1,14 @@
 package br.com.weslleyanunes.eventos_embu_guacu.service;
 
+import br.com.weslleyanunes.eventos_embu_guacu.model.Usuario;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.weslleyanunes.eventos_embu_guacu.model.Usuario;
-
 public class UsuarioService {
     private static final String ARQUIVO = "data/usuarios.data";
-    private List<Usuario> usuarios;
+    private final List<Usuario> usuarios;
 
     public UsuarioService() {
         this.usuarios = carregarUsuarios();
@@ -33,10 +33,7 @@ public class UsuarioService {
     }
 
     public Usuario buscarUsuarioPorCpf(String cpf) {
-        return usuarios.stream()
-                .filter(u -> u.getCpf().equals(cpf))
-                .findFirst()
-                .orElse(null);
+        return usuarios.stream().filter(u -> u.getCpf().equals(cpf)).findFirst().orElse(null);
     }
 
     private void salvarUsuarios() {
@@ -50,7 +47,8 @@ public class UsuarioService {
     @SuppressWarnings("unchecked")
     private List<Usuario> carregarUsuarios() {
         File file = new File(ARQUIVO);
-        if (!file.exists()) return new ArrayList<>();
+        if (!file.exists())
+            return new ArrayList<>();
 
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             return (List<Usuario>) ois.readObject();
