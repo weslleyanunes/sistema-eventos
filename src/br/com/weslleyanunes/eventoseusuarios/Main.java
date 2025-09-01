@@ -1,6 +1,6 @@
-package br.com.weslleyanunes.eventos_embu_guacu;
+package br.com.weslleyanunes.eventoseusuarios;
 
-import br.com.weslleyanunes.eventos_embu_guacu.view.Menu;
+import br.com.weslleyanunes.eventoseusuarios.view.Menu;
 
 public class Main {
     public static void main(String[] args) {

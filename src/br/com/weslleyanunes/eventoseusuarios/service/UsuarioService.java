@@ -1,6 +1,6 @@
-package br.com.weslleyanunes.eventos_embu_guacu.service;
+package br.com.weslleyanunes.eventoseusuarios.service;
 
-import br.com.weslleyanunes.eventos_embu_guacu.model.Usuario;
+import br.com.weslleyanunes.eventoseusuarios.model.Usuario;
 
 import java.io.*;
 import java.util.ArrayList;

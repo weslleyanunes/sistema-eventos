@@ -1,1 +1,10 @@
+# IntelliJ
+.idea/
+*.iml
+
+# Build
+/out/
 /bin/
+
+# Sistema
+*.log

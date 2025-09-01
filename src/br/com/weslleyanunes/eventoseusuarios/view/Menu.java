@@ -1,7 +1,7 @@
-package br.com.weslleyanunes.eventos_embu_guacu.view;
+package br.com.weslleyanunes.eventoseusuarios.view;
 
-import br.com.weslleyanunes.eventos_embu_guacu.service.EventoService;
-import br.com.weslleyanunes.eventos_embu_guacu.service.UsuarioService;
+import br.com.weslleyanunes.eventoseusuarios.service.EventoService;
+import br.com.weslleyanunes.eventoseusuarios.service.UsuarioService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

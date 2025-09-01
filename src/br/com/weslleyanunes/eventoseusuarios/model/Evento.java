@@ -1,4 +1,4 @@
-package br.com.weslleyanunes.eventos_embu_guacu.model;
+package br.com.weslleyanunes.eventoseusuarios.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

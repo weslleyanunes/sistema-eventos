@@ -1,7 +1,7 @@
-package br.com.weslleyanunes.eventos_embu_guacu.service;
+package br.com.weslleyanunes.eventoseusuarios.service;
 
-import br.com.weslleyanunes.eventos_embu_guacu.model.Evento;
-import br.com.weslleyanunes.eventos_embu_guacu.model.Usuario;
+import br.com.weslleyanunes.eventoseusuarios.model.Evento;
+import br.com.weslleyanunes.eventoseusuarios.model.Usuario;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -115,7 +115,10 @@ public class EventoService {
     }
 
     private void salvarEventos() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARQUIVO))) {
+        try (git rm -r --cached .idea out sistema_eventos.iml
+                git commit -m "Removendo arquivos desnecessários do repositório"
+                git push sistema-eventos main --force
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARQUIVO))) {
             oos.writeObject(eventos);
         } catch (IOException e) {
             System.out.println("Erro ao salvar eventos: " + e.getMessage());
