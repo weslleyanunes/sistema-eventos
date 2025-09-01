@@ -99,26 +99,35 @@ public class EventoService {
         System.out.println("Participação cancelada em: " + evento.getNome());
     }
 
-    public void listarEventosDoUsuario(Scanner scanner) {
-        System.out.print("Digite o CPF do usuário: ");
-        String cpf = scanner.nextLine();
-        Usuario usuario = usuarioService.buscarUsuarioPorCpf(cpf);
+    public List<Evento> listarEventosDoUsuario(String cpf) {
+        return eventos.stream()
+                .filter(evento -> evento.getParticipantes().stream()
+                        .anyMatch(usuario -> usuario.cpf().equals(cpf)))
+                .toList();
+    }
 
-        if (usuario == null) {
-            System.out.println("Usuário não encontrado!");
-            return;
+    public void atualizarEvento(String nome, String novoEndereco, LocalDateTime novoHorario, String novaDescricao) {
+        Evento evento = eventos.stream()
+                .filter(e -> e.getNome().equals(nome))
+                .findFirst()
+                .orElse(null);
+        if (evento != null) {
+            eventos.remove(evento);
+            Evento novoEvento = new Evento(nome, novoEndereco, evento.getCategoria(), novoHorario, novaDescricao);
+            eventos.add(novoEvento);
+            salvarEventos();
+            System.out.println("Evento atualizado com sucesso!");
+        } else {
+            System.out.println("Evento não encontrado.");
         }
+    }
 
-        System.out.println("\n=== Meus Eventos ===");
-        eventos.stream().filter(e -> e.getParticipantes().contains(usuario))
-                .forEach(e -> System.out.println((eventos.indexOf(e) + 1) + " - " + e));
+    public List<Evento> getEventos() {
+        return eventos;
     }
 
     private void salvarEventos() {
-        try (git rm -r --cached .idea out sistema_eventos.iml
-                git commit -m "Removendo arquivos desnecessários do repositório"
-                git push sistema-eventos main --force
-                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARQUIVO))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ARQUIVO))) {
             oos.writeObject(eventos);
         } catch (IOException e) {
             System.out.println("Erro ao salvar eventos: " + e.getMessage());

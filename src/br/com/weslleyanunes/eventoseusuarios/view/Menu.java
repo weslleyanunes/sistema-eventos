@@ -1,10 +1,13 @@
 package br.com.weslleyanunes.eventoseusuarios.view;
 
+import br.com.weslleyanunes.eventoseusuarios.model.Evento;
+import br.com.weslleyanunes.eventoseusuarios.model.Usuario;
 import br.com.weslleyanunes.eventoseusuarios.service.EventoService;
 import br.com.weslleyanunes.eventoseusuarios.service.UsuarioService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -21,7 +24,7 @@ public class Menu {
     public void exibirMenuPrincipal() {
         int opcao = -1;
 
-        while (opcao != 0) {
+        while (true) {
             limparConsole();
             System.out.println("====================================");
             System.out.println("  SISTEMA DE EVENTOS DE EMBU-GUAÇU   ");
@@ -46,16 +49,138 @@ public class Menu {
                     cadastrarUsuario();
                 case 2:
                     usuarioService.listarUsuarios();
+                    while (true) {
+                        System.out.println("\n1 - Corrigir Usuário");
+                        System.out.println("2 - Voltar ao Menu Principal");
+                        System.out.println("3 - Sair");
+                        int subOpcao = scanner.nextInt();
+                        scanner.nextLine(); // limpar buffer
+                        if (subOpcao == 1) {
+                            System.out.print("Digite o CPF do usuário a corrigir: ");
+                            String cpf = scanner.nextLine();
+                            Usuario usuario = usuarioService.buscarUsuarioPorCpf(cpf);
+                            if (usuario != null) {
+                                System.out.print("Novo nome: ");
+                                String novoNome = scanner.nextLine();
+                                System.out.print("Novo telefone: ");
+                                String novoTelefone = scanner.nextLine();
+                                System.out.print("Novo email: ");
+                                String novoEmail = scanner.nextLine();
+                                usuarioService.atualizarUsuario(cpf, novoNome, novoTelefone, novoEmail);
+                            } else {
+                                System.out.println("Usuário não encontrado.");
+                            }
+                        } else if (subOpcao == 2) {
+                            break;
+                        } else if (subOpcao == 3) {
+                            System.out.println("Saindo...");
+                            System.exit(0);
+                        }
+                    }
+                    break;
                 case 3:
                     cadastrarEvento();
                 case 4:
                     eventoService.listarEventosOrdenados();
+                    while (true) {
+                        System.out.println("\n1 - Corrigir Evento");
+                        System.out.println("2 - Voltar ao Menu Principal");
+                        System.out.println("3 - Sair");
+                        int subOpcao = scanner.nextInt();
+                        scanner.nextLine(); // limpar buffer
+                        if (subOpcao == 1) {
+                            List<Evento> eventos = eventoService.getEventos();
+                            if (eventos.isEmpty()) {
+                                System.out.println("Nenhum evento cadastrado.");
+                                continue;
+                            }
+                            System.out.print("Selecione o número do evento a corrigir: ");
+                            int numero = scanner.nextInt() - 1;
+                            scanner.nextLine(); // limpar buffer
+                            if (numero >= 0 && numero < eventos.size()) {
+                                Evento evento = eventos.get(numero);
+                                System.out.print("Novo endereço: ");
+                                String novoEndereco = scanner.nextLine();
+                                System.out.print("Nova data e hora (dd/MM/yyyy HH:mm): ");
+                                String dataHoraStr = scanner.nextLine();
+                                LocalDateTime novoHorario;
+                                try {
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+                                    novoHorario = LocalDateTime.parse(dataHoraStr, formatter);
+                                } catch (Exception e) {
+                                    System.out.println("Data inválida!");
+                                    continue;
+                                }
+                                System.out.print("Nova descrição: ");
+                                String novaDescricao = scanner.nextLine();
+                                eventoService.atualizarEvento(evento.getNome(), novoEndereco, novoHorario, novaDescricao);
+                            } else {
+                                System.out.println("Número inválido.");
+                            }
+                        } else if (subOpcao == 2) {
+                            break;
+                        } else if (subOpcao == 3) {
+                            System.out.println("Saindo...");
+                            System.exit(0);
+                        }
+                    }
+                    break;
                 case 5:
                     eventoService.participarEmEvento(scanner);
+                    break;
                 case 6:
                     eventoService.cancelarParticipacao(scanner);
+                    break;
                 case 7:
-                    eventoService.listarEventosDoUsuario(scanner);
+                    System.out.print("Digite seu CPF: ");
+                    String cpfConsulta = scanner.nextLine();
+                    eventoService.listarEventosDoUsuario(cpfConsulta);
+                    while (true) {
+                        System.out.println("\n1 - Corrigir Evento");
+                        System.out.println("2 - Voltar ao Menu Principal");
+                        System.out.println("3 - Sair");
+                        int subOpcao = scanner.nextInt();
+                        scanner.nextLine(); // limpar buffer
+                        if (subOpcao == 1) {
+                            System.out.print("Digite seu CPF: ");
+                            String cpf = scanner.nextLine();
+                            List<Evento> eventosDoUsuario = eventoService.listarEventosDoUsuario(cpf);
+                            if (eventosDoUsuario.isEmpty()) {
+                                System.out.println("Você não participa de nenhum evento.");
+                                continue;
+                            }
+                            System.out.print("Selecione o número do evento a corrigir: ");
+                            int numero = scanner.nextInt() - 1;
+                            scanner.nextLine(); // limpar buffer
+                            if (numero >= 0 && numero < eventosDoUsuario.size()) {
+                                Evento evento = eventosDoUsuario.get(numero);
+                                System.out.print("Novo endereço: ");
+                                String novoEndereco = scanner.nextLine();
+                                System.out.print("Nova data e hora (dd/MM/yyyy HH:mm): ");
+                                String dataHoraStr = scanner.nextLine();
+                                LocalDateTime novoHorario;
+                                try {
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+                                    novoHorario = LocalDateTime.parse(dataHoraStr, formatter);
+                                } catch (Exception e) {
+                                    System.out.println("Data inválida!");
+                                    continue;
+                                }
+                                System.out.print("Nova descrição: ");
+                                String novaDescricao = scanner.nextLine();
+                                eventoService.atualizarEvento(evento.getNome(), novoEndereco, novoHorario, novaDescricao);
+                                System.out.println("Evento atualizado com sucesso!");
+                            } else {
+                                System.out.println("Número inválido.");
+                            }
+                        } else if (subOpcao == 2) {
+                            break;
+                        } else if (subOpcao == 3) {
+                            System.out.println("Saindo...");
+                            System.exit(0);
+                        }
+                    }
+                    break;
                 case 0:
                     System.out.println("\nSaindo...");
                     System.exit(0);

@@ -32,8 +32,25 @@ public class UsuarioService {
         }
     }
 
+    public void atualizarUsuario(String cpf, String novoNome, String novoTelefone, String novoEmail) {
+        Usuario usuario = buscarUsuarioPorCpf(cpf);
+        if (usuario != null) {
+            usuarios.remove(usuario);
+            Usuario novoUsuario = new Usuario(novoNome, cpf, novoTelefone, novoEmail);
+            usuarios.add(novoUsuario);
+            salvarUsuarios();
+            System.out.println("Usuário atualizado com sucesso!");
+        } else {
+            System.out.println("Usuário não encontrado.");
+        }
+    }
+
     public Usuario buscarUsuarioPorCpf(String cpf) {
-        return usuarios.stream().filter(u -> u.getCpf().equals(cpf)).findFirst().orElse(null);
+        return usuarios.stream().filter(u -> u.cpf().equals(cpf)).findFirst().orElse(null);
+    }
+
+    public List<Usuario> getUsuarios() {
+        return usuarios;
     }
 
     private void salvarUsuarios() {
