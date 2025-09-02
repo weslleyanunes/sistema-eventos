@@ -1,7 +1,6 @@
 # Sistema de Eventos
 
-Este projeto é um sistema de cadastro e gerenciamento de eventos desenvolvido em **Java 21**, rodando em **console (CLI)
-**.
+Este projeto é um sistema de cadastro e gerenciamento de eventos desenvolvido em **Java 21**, rodando em **console (CLI)**.
 
 Ele permite o cadastro de usuários e eventos, participação em eventos, cancelamento de participação e consulta de
 eventos já ocorridos ou em andamento.  
