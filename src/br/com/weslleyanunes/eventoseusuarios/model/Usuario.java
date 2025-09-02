@@ -3,6 +3,7 @@ package br.com.weslleyanunes.eventoseusuarios.model;
 import java.io.Serializable;
 
 public record Usuario(String nome, String cpf, String telefone, String email) implements Serializable {
+    @java.io.Serial
     private static final long serialVersionUID = 1L;
 
     @Override

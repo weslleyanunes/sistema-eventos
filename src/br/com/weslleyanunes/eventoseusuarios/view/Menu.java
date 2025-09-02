@@ -36,6 +36,7 @@ public class Menu {
             System.out.println("5 - Participar de Evento");
             System.out.println("6 - Cancelar Participação");
             System.out.println("7 - Meus Eventos");
+            System.out.println("8 - Excluir Evento"); // Nova opção
             System.out.println("0 - Sair");
             System.out.print("\nEscolha uma opção: ");
 
@@ -113,7 +114,9 @@ public class Menu {
                                 }
                                 System.out.print("Nova descrição: ");
                                 String novaDescricao = scanner.nextLine();
-                                eventoService.atualizarEvento(evento.getNome(), novoEndereco, novoHorario, novaDescricao);
+                                System.out.print("Nova categoria: ");
+                                String novaCategoria = scanner.nextLine();
+                                eventoService.atualizarEvento(evento.getNome(), novoEndereco, novaCategoria, novoHorario, novaDescricao);
                             } else {
                                 System.out.println("Número inválido.");
                             }
@@ -156,6 +159,8 @@ public class Menu {
                                 Evento evento = eventosDoUsuario.get(numero);
                                 System.out.print("Novo endereço: ");
                                 String novoEndereco = scanner.nextLine();
+                                System.out.print("Nova categoria: ");
+                                String novaCategoria = scanner.nextLine();
                                 System.out.print("Nova data e hora (dd/MM/yyyy HH:mm): ");
                                 String dataHoraStr = scanner.nextLine();
                                 LocalDateTime novoHorario;
@@ -168,7 +173,8 @@ public class Menu {
                                 }
                                 System.out.print("Nova descrição: ");
                                 String novaDescricao = scanner.nextLine();
-                                eventoService.atualizarEvento(evento.getNome(), novoEndereco, novoHorario, novaDescricao);
+
+                                eventoService.atualizarEvento(evento.getNome(), novoEndereco, novaCategoria, novoHorario, novaDescricao);
                                 System.out.println("Evento atualizado com sucesso!");
                             } else {
                                 System.out.println("Número inválido.");
@@ -178,6 +184,46 @@ public class Menu {
                         } else if (subOpcao == 3) {
                             System.out.println("Saindo...");
                             System.exit(0);
+                        }
+                    }
+                    break;
+                case 8:
+                    eventoService.listarEventosOrdenados(); // Exibe a lista ordenada
+                    if (!eventoService.getEventos().isEmpty()) {
+                        System.out.print("Digite o número do evento a excluir: ");
+                        int numeroExcluir = scanner.nextInt();
+                        int indiceExcluir = numeroExcluir - 1;
+                        eventoService.removerEventoPorOrdenacao(indiceExcluir);
+                    } else {
+                        System.out.println("Nenhum evento cadastrado para excluir.");
+                    }
+
+                    // ← Adicionado: Sub-menu com opções de navegação
+                    while (true) {
+                        System.out.println("\n1 - Excluir outro evento");
+                        System.out.println("2 - Voltar ao Início");
+                        System.out.println("3 - Sair");
+                        System.out.print("Escolha uma opção: ");
+                        int subOpcao = scanner.nextInt();
+                        scanner.nextLine(); // Limpa buffer
+
+                        if (subOpcao == 1) {
+                            eventoService.listarEventosOrdenados();
+                            if (!eventoService.getEventos().isEmpty()) {
+                                System.out.print("Digite o número do evento a excluir: ");
+                                int numeroExcluir = scanner.nextInt();
+                                int indiceExcluir = numeroExcluir - 1;
+                                eventoService.removerEventoPorOrdenacao(indiceExcluir);
+                            } else {
+                                System.out.println("Nenhum evento cadastrado.");
+                            }
+                        } else if (subOpcao == 2) {
+                            break; // Volta ao menu principal
+                        } else if (subOpcao == 3) {
+                            System.out.println("Saindo...");
+                            System.exit(0);
+                        } else {
+                            System.out.println("Opção inválida!");
                         }
                     }
                     break;
@@ -219,7 +265,7 @@ public class Menu {
         System.out.print("Digite o endereço: ");
         String endereco = scanner.nextLine();
 
-        System.out.print("Digite a categoria (Festa, Show, Esporte...): ");
+        System.out.print("Digite a categoria: ");
         String categoria = scanner.nextLine();
 
         System.out.print("Digite a data e hora (dd/MM/yyyy HH:mm): ");

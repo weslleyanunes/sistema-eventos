@@ -29,6 +29,7 @@ public class UsuarioService {
         System.out.println("\n=== Lista de Usuários ===");
         for (int i = 0; i < usuarios.size(); i++) {
             System.out.println((i + 1) + " - " + usuarios.get(i));
+            System.out.println(); // ← Adicionado: espaço entre usuários
         }
     }
 

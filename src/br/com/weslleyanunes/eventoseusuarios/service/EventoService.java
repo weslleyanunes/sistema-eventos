@@ -34,9 +34,14 @@ public class EventoService {
             return;
         }
 
+        List<Evento> sortedEventos = new ArrayList<>(eventos);
+        sortedEventos.sort(Comparator.comparing(Evento::getHorario));
+
         System.out.println("\n=== Lista de Eventos ===");
-        eventos.stream().sorted(Comparator.comparing(Evento::getHorario))
-                .forEach(e -> System.out.println((eventos.indexOf(e) + 1) + " - " + e));
+        for (int i = 0; i < sortedEventos.size(); i++) {
+            System.out.println((i + 1) + " - " + sortedEventos.get(i));
+            System.out.println(); // ← Adicionado: espaço entre eventos
+        }
     }
 
     public void participarEmEvento(Scanner scanner) {
@@ -106,14 +111,14 @@ public class EventoService {
                 .toList();
     }
 
-    public void atualizarEvento(String nome, String novoEndereco, LocalDateTime novoHorario, String novaDescricao) {
+    public void atualizarEvento(String nome, String novoEndereco, String novaCategoria, LocalDateTime novoHorario, String novaDescricao) {
         Evento evento = eventos.stream()
                 .filter(e -> e.getNome().equals(nome))
                 .findFirst()
                 .orElse(null);
         if (evento != null) {
             eventos.remove(evento);
-            Evento novoEvento = new Evento(nome, novoEndereco, evento.getCategoria(), novoHorario, novaDescricao);
+            Evento novoEvento = new Evento(nome, novoEndereco, novaCategoria, novoHorario, novaDescricao);
             eventos.add(novoEvento);
             salvarEventos();
             System.out.println("Evento atualizado com sucesso!");
@@ -147,4 +152,35 @@ public class EventoService {
             return new ArrayList<>();
         }
     }
+
+    public void excluirEvento(Scanner scanner) {
+        listarEventosOrdenados();
+        if (eventos.isEmpty())
+            return;
+
+        System.out.print("Digite o número do evento que deseja excluir: ");
+        int indice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (indice < 1 || indice > eventos.size()) {
+            System.out.println("Evento inválido!");
+            return;
+        }
+
+        removerEventoPorOrdenacao(indice - 1);
+    }
+
+    public void removerEventoPorOrdenacao(int indice) {
+        List<Evento> sortedEventos = new ArrayList<>(eventos);
+        sortedEventos.sort(Comparator.comparing(Evento::getHorario));
+        if (indice >= 0 && indice < sortedEventos.size()) {
+            Evento eventoExcluir = sortedEventos.get(indice);
+            eventos.remove(eventoExcluir);
+            salvarEventos();
+            System.out.println("Evento removido com sucesso!");
+        } else {
+            System.out.println("Índice inválido.");
+        }
+    }
+
 }

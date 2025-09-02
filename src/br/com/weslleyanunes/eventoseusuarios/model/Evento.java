@@ -68,6 +68,6 @@ public class Evento implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s | %s | %s | %s | %s", nome, endereco, categoria, formatarHorario(), descricao);
+        return String.format("%s \n→ %s - %s \n→ %s \n→ %s", nome, endereco, categoria, formatarHorario(), descricao);
     }
 }
